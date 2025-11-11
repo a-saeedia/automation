@@ -1,9 +1,6 @@
 
 import { useState, useRef, useCallback } from 'react';
-import type { NewsArticle, ProcessedNews, LogEntry } from '../types';
-import { getLatestNews } from '../services/newsService';
-import { processNewsArticle } from '../services/geminiService';
-import { sendTelegramMessage } from '../services/telegramService';
+import type { ProcessedNews, LogEntry } from '../types';
 
 export const useAutomation = (token: string, channelId: string) => {
   const [isRunning, setIsRunning] = useState(false);
@@ -35,28 +32,34 @@ export const useAutomation = (token: string, channelId: string) => {
     }
 
     setIsLoading(true);
+    addLog('Sending request to server to process news...', 'info');
+
     try {
-      addLog('Fetching latest crypto news...', 'info');
-      const article: NewsArticle = getLatestNews();
-      addLog(`Found article: "${article.title}"`, 'info');
+        const response = await fetch('/api/run-process', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token, channelId }),
+        });
 
-      addLog('Processing with Gemini AI...', 'info');
-      const processedNews = await processNewsArticle(article);
-      setLatestNews(processedNews);
-      addLog('AI processing complete.', 'success');
+        const result = await response.json();
 
-      addLog('Sending to Telegram channel...', 'info');
-      await sendTelegramMessage(token, channelId, processedNews);
-      addLog('Successfully published to Telegram.', 'success');
+        if (!response.ok || !result.success) {
+            throw new Error(result.message || 'An unknown error occurred on the server.');
+        }
+
+        setLatestNews(result.processedNews);
+        addLog('AI processing complete.', 'success');
+        addLog('Successfully published to Telegram.', 'success');
 
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      addLog(`An error occurred: ${errorMessage}`, 'error');
-      console.error(error);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        addLog(`An error occurred: ${errorMessage}`, 'error');
+        console.error(error);
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, channelId, addLog]);
 
 

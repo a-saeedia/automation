@@ -1,22 +1,24 @@
+
 {
-  "name": "crypto-news-farsi-publisher",
+  "name": "crypto-news-publisher",
+  "version": "1.0.0",
+  "description": "Automated crypto news publisher with Gemini and Telegram.",
+  "main": "server/index.js",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "start": "node server/index.js",
+    "dev": "echo 'This command is for production server. For local dev, run your frontend and backend separately.'",
+    "build": "echo 'Build step is handled by install.sh using esbuild for simplicity.'"
   },
   "dependencies": {
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "@google/genai": "^1.29.0"
+    "@google/genai": "^1.29.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
-    "@types/node": "^22.14.0",
-    "@vitejs/plugin-react": "^5.0.0",
-    "typescript": "~5.8.2",
-    "vite": "^6.2.0"
+    "esbuild": "^0.21.4"
   }
 }
