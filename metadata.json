@@ -1,0 +1,5 @@
+{
+  "name": "Crypto News Farsi Publisher",
+  "description": "An automated tool to fetch the latest crypto news, process it using Gemini for humanization, Farsi translation, and viral titling, and then publish it to a Telegram channel every 30 minutes or manually.",
+  "requestFramePermissions": []
+}
