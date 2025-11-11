@@ -80,7 +80,7 @@ const runNewsCycle = async (token, channelId) => {
 
 
 // Serve the static frontend
-const clientPath = path.join(__dirname, '..', 'dist');
+const clientPath = path.join(__dirname, '..', 'public');
 app.use(express.static(clientPath));
 
 // --- API Endpoints ---

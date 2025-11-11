@@ -1,4 +1,3 @@
-
 {
   "name": "crypto-news-publisher",
   "version": "1.0.0",
@@ -7,8 +6,8 @@
   "private": true,
   "scripts": {
     "start": "node server/index.js",
-    "dev": "echo 'This command is for production server. For local dev, run your frontend and backend separately.'",
-    "build": "echo 'Build step is handled by install.sh using esbuild for simplicity.'"
+    "dev": "echo 'Run the app using the Docker instructions in README.md'",
+    "build": "mkdir -p public && esbuild index.tsx --bundle --outfile=public/bundle.js --loader:.tsx=tsx --jsx=automatic"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
